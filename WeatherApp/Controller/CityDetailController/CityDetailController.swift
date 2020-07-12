@@ -57,17 +57,17 @@ class CityDetailController: UIViewController {
     
     private func setupUI(cityWeather: CityDetail) {
         let unit = UserManager.getChosenUnits() ?? "C"
-        self.tempretureLabel.text = "\(cityWeather.main.temp) °\(unit)"
-        self.weatherStatus.text = cityWeather.weather.first?.weatherDescription.capitalized
-        self.feelsLikeLabel.text = "Feels like: \(cityWeather.main.feelsLike) °\(unit)"
-        self.windSpeedLabel.text = "Wind speed: \(cityWeather.wind.speed)"
+        tempretureLabel.text = "\(cityWeather.main.temp) °\(unit)"
+        weatherStatus.text = cityWeather.weather.first?.weatherDescription.capitalized
+        feelsLikeLabel.text = "Feels like: \(cityWeather.main.feelsLike) °\(unit)"
+        windSpeedLabel.text = "Wind speed: \(cityWeather.wind.speed)"
         
         let sunset = Date.dateFrom(timestamp: cityWeather.sys.sunset)
         let sunrise = Date.dateFrom(timestamp: cityWeather.sys.sunrise)
-        self.sunsetLabel.text = "Sunset: \(sunset)"
-        self.sunriseLabel.text = "Sunrise: \(sunrise)"
+        sunsetLabel.text = "Sunset: \(sunset)"
+        sunriseLabel.text = "Sunrise: \(sunrise)"
         let currentTime = Date.dateAccordingToTimezone(seconds: cityWeather.timezone)
-        self.todayLabel.text! += ", \(currentTime)"
+        todayLabel.text! += ", \(currentTime)"
         
         
         if let iconName = cityWeather.weather.first?.icon , let urlStr = "http://openweathermap.org/img/wn/\(iconName)@2x.png".addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: urlStr) {

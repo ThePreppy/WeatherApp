@@ -30,14 +30,17 @@ class WeatherManager {
     static private let jsonDecoder = JSONDecoderService()
     
     static func fetchWeatherInCity(cityID id: Int, units: Units, lang: String = "en", completion: @escaping (CityDetail?, Error?) -> ()) {
-        var api: String
-        if units == .Kelvin {
-            api = Constants.domain + "/weather?id=\(id)&lang=\(lang)&APPID=\(Constants.secretKey)"
-        } else {
-            api = Constants.domain + "/weather?id=\(id)&lang=\(lang)&units=\(units.serverValue)&APPID=\(Constants.secretKey)"
+        guard var urlComponents = URLComponents(string: Constants.domain + "/weather") else { return }
+        var parameters = ["APPID" : Constants.secretKey, "id" : "\(id)", "lang" : lang]
+        if units != .Kelvin {
+            parameters["units"] = units.serverValue
         }
         
-        networkService.request(url: api, method: .post) { (response) in
+        urlComponents.queryItems = parameters.map({ URLQueryItem(name: $0.key, value: $0.value) })
+        
+        guard let url = urlComponents.url else { return }
+        
+        networkService.request(url: url.absoluteString, method: .post) { (response) in
             switch response {
             case .success(let json):
                 jsonDecoder.decodeJSON(of: CityDetail.self, json: json) { (decoded) in

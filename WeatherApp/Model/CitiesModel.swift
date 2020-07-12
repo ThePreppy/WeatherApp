@@ -8,8 +8,6 @@
 
 import Foundation
 
-import Foundation
-
 // MARK: - Cities
 struct Cities: Codable {
     let cities: [City]

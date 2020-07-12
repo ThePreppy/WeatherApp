@@ -23,8 +23,6 @@ class NetworkService {
         case patch = "PATCH"
     }
     
-    
-    
     func request(url: String, method: HTTPMethod, parameters: JSON? = nil, completion: @escaping (RequestResponse) -> ()) {
         
         let session = URLSession.shared
